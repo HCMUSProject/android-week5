@@ -109,7 +109,7 @@ public class listViewFragment extends Fragment implements FragmentCallbacks{
 
             TextView label = (TextView) row.findViewById(R.id.label);
 
-            label.setText(list.get(position).get_name());
+            label.setText(list.get(position).get_id());
 
             ImageView imgView = (ImageView) row.findViewById(R.id.imgView);
 
