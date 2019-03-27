@@ -2,11 +2,13 @@ package com.example.week5_fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -17,10 +19,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
-public class listViewFragment extends Fragment{
+public class listViewFragment extends Fragment implements FragmentCallbacks{
 
     MainActivity main;
+    ListView listView;
+    TextView txtView;
     Context context = null;
+
+    int curPosition = 0;
 
     private static ArrayList<Student> listStudent;
 
@@ -52,9 +58,9 @@ public class listViewFragment extends Fragment{
 
         LinearLayout layout_listview = (LinearLayout) inflater.inflate(R.layout.fragment_list_view, null);
 
-        final TextView txtView = (TextView) layout_listview.findViewById(R.id.txtShow);
+        txtView = (TextView) layout_listview.findViewById(R.id.txtShow);
 
-        ListView listView = (ListView) layout_listview.findViewById(R.id.listView);
+        listView = (ListView) layout_listview.findViewById(R.id.listView);
 
         listView.setAdapter(new CustomAdapter(context, R.layout.custom_listview, listStudent));
 
@@ -63,9 +69,20 @@ public class listViewFragment extends Fragment{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 txtView.setText("Mã số: " + listStudent.get(position).get_id());
 
+                curPosition = position;
+
+                ((ArrayAdapter) listView.getAdapter()).notifyDataSetChanged();
+
                 main.onMsgFromFragToMain("FRAG_LIST", position);
            }
         });
+
+
+        listView.performItemClick(
+                listView.getAdapter().getView(0, null, null),
+                0,
+                listView.getAdapter().getItemId(0)
+        );
 
         return layout_listview;
     }
@@ -98,8 +115,28 @@ public class listViewFragment extends Fragment{
 
             imgView.setImageResource(list.get(position).get_img());
 
+            if (curPosition == position)
+            {
+                row.setBackgroundColor(Color.rgb(222,224,237));
+            }
+
             return row;
         }
     }
 
+    public void onMsgFromMainToFragment(int position)
+    {
+        curPosition = position;
+
+        // chuyen selected ve vi tri position
+
+        listView.performItemClick(
+                listView.getAdapter().getView(position, null, null),
+                position,
+                listView.getAdapter().getItemId(position)
+        );
+
+        //  thay doi text hien thi
+
+    }
 }

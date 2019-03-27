@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -58,15 +60,29 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
     }
 
-
-
     public void onMsgFromFragToMain (String sender, int position)
     {
-        if (sender.equals("FRAG_LIST") == true)
+        if (sender.equals("FRAG_LIST"))
         {
             // gui position sang cho fragment content
 
-            contentFragment.onMsgFromMainToFragment(position);
+            try {
+                contentFragment.onMsgFromMainToFragment(position);
+            }
+            catch(Exception e)
+            {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+//            Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
+        }
+
+        if (sender.equals("FRAG_CONTENT"))
+        {
+            // gui ve lai cho fragment listview xu li
+            // gui ve position
+
+            lvFragment.onMsgFromMainToFragment(position);
         }
     }
 }

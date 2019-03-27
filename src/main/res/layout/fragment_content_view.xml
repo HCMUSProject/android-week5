@@ -9,14 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:padding="30dp"
-        android:text="@string/hello_blank_fragment"
+        android:padding="15dp"
+        android:textSize="25dp"
+        android:text=""
         android:textAlignment="center" />
 
     <TextView
         android:id="@+id/txtShowInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="20dp"
         android:padding="5dp" />
 
     <LinearLayout
